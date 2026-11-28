@@ -1,34 +1,23 @@
-import speech_recognition as sr
-import webbrowser 
-import pyttsx3
+from speech import speak, listen
+from commands import process_command
 
-recognizer = sr.Recognizer()
-engine = pyttsx3.init()
+print("Jarvis is in standby...")
 
-def speak(text):
-    engine.say(text)
-    engine.runAndWait()
+running = True
 
+while running:
+    command = listen()
 
-if __name__ == "__main__":
-    speak("Initializing Jarvis.....")
-   # Listen for the wake word "Jarvis"
-    while True:
-        r = sr.Recognizer()
-        with sr.Microphone() as source:
-            print("Listening")
-            audio = r.listen(source)
-        
-       
+    if command and "hey jarvis" in command:
+        print("Wake word detected!")
+        speak("Yes, how can I help you?")
 
-        # recognize speech using Sphinx
-        try:
-           command = r.recognize_lex(audio)
-           print(command)
-        except sr.UnknownValueError:
-            print("Sphinx could not understand audio")
-        except sr.RequestError as e:
-            print("Sphinx error; {0}".format(e))
+        user_command = listen()
 
+        if user_command:
+            print("Command received:", user_command)
+            running = process_command(user_command)
 
- 
+    if not running:
+        break
+
