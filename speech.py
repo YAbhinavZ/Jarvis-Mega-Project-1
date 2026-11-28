@@ -10,7 +10,6 @@ def listen():
     try:
             with sr.Microphone() as source:
                 print("Listening...")
-                
                 r.adjust_for_ambient_noise(source, duration=0.2)
                 audio = r.listen(source)
                 print("Audio recorded successfully!")
@@ -19,7 +18,6 @@ def listen():
                 return text
                 
                
-
     except sr.RequestError as e:
             print("Could not request results; {0}".format(e))
             return None
